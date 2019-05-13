@@ -7,8 +7,6 @@ STUN servers generally require very little bandwidth, thus there are many free s
 
 It is estimated that 85-90% of connections do not require TURN, however that still leaves a significant percentage which does require it.
 
-Note: the example code fragments below are intended to be put in your server_example.js file. 
-They run on the server side, not the client side.
 
 TURN Details:
 -------------
@@ -29,14 +27,14 @@ The appIceConfig option accepts an array containing zero or more URL's to STUN a
 
 
     var myIceServers = [
-      {"urls":"stun:[ADDRESS]:[PORT]"},
+      {"url":"stun:[ADDRESS]:[PORT]"},
       {
-        "urls":"turn:[ADDRESS]:[PORT]",
+        "url":"turn:[ADDRESS]:[PORT]",
         "username":"[USERNAME]",
         "credential":"[CREDENTIAL]"
       },
       {
-        "urls":"turn:[ADDRESS]:[PORT][?transport=tcp]",
+        "url":"turn:[ADDRESS]:[PORT][?transport=tcp]",
         "username":"[USERNAME]",
         "credential":"[CREDENTIAL]"
       }
@@ -69,9 +67,9 @@ In this example we are supplying a custom username for the TURN server.
 
     easyrtc.on("getIceConfig", function(connectionObj, callback){
       var myIceServers=[
-        {"urls":"stun:stun.easyrtc.com:3478"},
+        {"url":"stun:stun.easyrtc.com:3478"},
         {
-          "urls":        "turn:turn.easyrtc.com:3478",
+          "url":        "turn:turn.easyrtc.com:3478",
           "username":   connectionObj.getUsername(),
           "credential": "345yRTC!"
         }

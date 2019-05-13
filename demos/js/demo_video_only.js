@@ -40,10 +40,7 @@ function connect() {
     console.log("Initializing.");
     easyrtc.enableAudio(false);
     easyrtc.enableAudioReceive(false);
-    easyrtc.salimtest("thisWorks",function(data){
-      console.log('test front works  '+data);
-    });
-/*   easyrtc.setRoomOccupantListener(convertListToButtons);
+    easyrtc.setRoomOccupantListener(convertListToButtons);
     easyrtc.initMediaSource(
         function(){        // success callback
             var selfVideo = document.getElementById("selfVideo");
@@ -54,7 +51,6 @@ function connect() {
             easyrtc.showError("MEDIA-ERROR", errmesg);
         }  // failure callback
         );
-  */
 }
 
 

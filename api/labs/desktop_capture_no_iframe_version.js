@@ -1,4 +1,3 @@
-/* global chrome, easyrtc */
 //
 // This code was taken from: https://github.com/muaz-khan/WebRTC-Experiment/tree/master/Pluginfree-Screen-Sharing
 // and modified to fit with EasyRTC.
@@ -27,9 +26,8 @@ var DetectRTC = {};
     DetectRTC.screen = {
         supported: false,
         getSourceId: function(callback) {
-            if (!callback) {
+            if (!callback)
                 throw '"callback" parameter is mandatory.';
-            }
             screenCallback = callback;
             window.postMessage('desktopcapture-get-sourceId', '*');
         },
@@ -51,7 +49,7 @@ var DetectRTC = {};
         },
         onMessageCallback: function(data) {
             // "cancel" button is clicked
-            if (data === 'PermissionDeniedError') {
+            if (data == 'PermissionDeniedError') {
                 DetectRTC.screen.chromeMediaSource = 'PermissionDeniedError';
                 if (screenCallback) {
                    return screenCallback('PermissionDeniedError');
@@ -62,7 +60,7 @@ var DetectRTC = {};
             }
 
             // extension notified his presence
-            if (data === 'desktopcapture-loaded') {
+            if (data == 'desktopcapture-loaded') {
                 DetectRTC.screen.supported = true;
             }
 
@@ -83,7 +81,7 @@ var DetectRTC = {};
 })();
 
 window.addEventListener('message', function(event) {
-    if (event.origin !== window.location.origin) {
+    if (event.origin != window.location.origin) {
         return;
     }
 
@@ -98,7 +96,7 @@ window.addEventListener('message', function(event) {
   */ 
 easyrtc.isDesktopCaptureInstalled = function() {
     return DetectRTC.screen.supported;
-};
+}
 
   /** Create a local media stream for desktop capture.
      * This will fail if a desktop capture extension is not installed.
@@ -121,8 +119,8 @@ easyrtc.isDesktopCaptureInstalled = function() {
      */
 easyrtc.initDesktopStream = function(successCallback, failureCallback, streamName) {
     if (!easyrtc.isDesktopCaptureInstalled()) {
-        failureCallback(easyrtc.errCodes.DEVELOPER_ERR, "Desktop capture plugin not installed");
-        return;
+        failureCallback(easyrtc.errCodes.DEVELOPER_ERR, "Desktop capture plugin not installed").
+                return;
     }
 
     DetectRTC.screen.getSourceId(function(error) {
@@ -141,15 +139,14 @@ easyrtc.initDesktopStream = function(successCallback, failureCallback, streamNam
                     }
                 },
                 audio: false
-            };
-
+            }
             easyrtc.initMediaSource(successCallback, failureCallback, streamName);
         }
         else {
             failureCallback(easyrtc.errCodes.MEDIA_CANCELLED, "Desktop capture plugin not installed");
         }
     });
-};
+}
 
 /**
  * This method builds a function that can be attached to a button to install an extension.
@@ -176,6 +173,7 @@ easyrtc.initDesktopStream = function(successCallback, failureCallback, streamNam
  */
 easyrtc.chromeInstaller = function(extensionId, successCallback, failureCallback) {
     return function() {
+        var el, url;
         if( !navigator.webkitGetUserMedia ||
             !window.chrome ||
             !chrome.webstore ||
@@ -186,9 +184,7 @@ easyrtc.chromeInstaller = function(extensionId, successCallback, failureCallback
             try {
                 var el = document.querySelector('head link#' + extensionId);
 
-                if (!el) {
-                    throw new Error("Can't find a `link` element in `head` with id `"+extensionId+"`");
-                }
+                if ( ! el) throw new Error("Can't find a `link` element in `head` with id `"+extensionId+"`");
 
                 // get the chrome extension url from the link's href attribute
                 var url = el.attributes.href.value;
@@ -202,5 +198,5 @@ easyrtc.chromeInstaller = function(extensionId, successCallback, failureCallback
                 failureCallback(easyrtc.errCodes.DEVELOPER_ERR, error.message);
             }
         }
-    };
-};
+    }
+}

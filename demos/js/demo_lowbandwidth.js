@@ -2,20 +2,7 @@ var selfEasyrtcid = "";
 
 
 function connect() {
-    easyrtc.setRoomOccupantListener(convertListToButtons);
-    easyrtc.easyApp("easyrtc.lowbandwidth", "selfVideo", ["callerVideo"], loginSuccess, loginFailure);
-}
 
-
-function triggerIceRestart() {
-   var caller = easyrtc.getIthCaller(0);
-   if( caller ) {
-      easyrtc.renegotiate(caller);
-   }
-}
-
-
-function useLowBandwidth(){
     var localFilter = easyrtc.buildLocalSdpFilter( {
         audioRecvBitrate:20, videoRecvBitrate:30
     });
@@ -23,20 +10,9 @@ function useLowBandwidth(){
         audioSendBitrate: 20, videoSendBitrate:30
     });
     easyrtc.setSdpFilters(localFilter, remoteFilter);
-    triggerIceRestart();
-}
-
-
-function useHighBandwidth() {
-    var localFilter = easyrtc.buildLocalSdpFilter( {
-        audioRecvBitrate:50, videoRecvBitrate:500
-    });
-    var remoteFilter = easyrtc.buildRemoteSdpFilter({
-        audioSendBitrate: 50, videoSendBitrate:500
-    });
-    easyrtc.setSdpFilters(localFilter, remoteFilter);
-    triggerIceRestart();
-}
+    easyrtc.setRoomOccupantListener(convertListToButtons);
+    easyrtc.easyApp("easyrtc.lowbandwidth", "selfVideo", ["callerVideo"], loginSuccess, loginFailure);
+ }
 
 
 function clearConnectList() {

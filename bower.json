@@ -1,21 +1,16 @@
 {
-  "name": "easyrtc",
-  "main": "api/easyrtc.js",
-  "version": "1.1.1-beta",
-  "homepage": "http://easyrtc.com/",
-  "authors": [
-    "Rod Apeldoorn <rod.apeldoorn@priologic.com>",
-    "Eric Davies <eric.davies@priologic.com>",
-    "Harold Thétiot <hthetiot@sylaps.com>"
-  ],
-  "description": "EasyRTC enables quick development of webRTC",
+  "name": "nodejs-webrtc-video-stream",
+  "version": "1.0.0",
+  "homepage": "https://mysterious-mesa-29296.herokuapp.com/",
+  "author": "Renan Pupin <renan.pupin@gmail.com>",
+  "description": "Nodejs WebRTC video stream with EasyRTC",
   "dependencies": {
-    "socket.io-client": "^1.4.5",
-    "webrtc-adapter": "^6.4.0"
+    "socket.io-client": "^1.4.5"
   },
   "moduleType": [
     "globals"
   ],
+  "main": "server",
   "license": "BSD 2",
   "ignore": [
     "**/.*",
@@ -27,10 +22,10 @@
     "demos",
     "dev",
     "docs",
-    "lib",
-    "server_example"
+    "lib"
   ],
   "devDependencies": {
+    "webrtc-adapter": "gh-pages",
     "jasmine": "~2.2.1",
     "requirejs": "~2.1.16"
   }
