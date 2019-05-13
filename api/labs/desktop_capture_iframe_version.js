@@ -1,4 +1,4 @@
-/* global chrome, easyrtc, console */
+
 //  This file is a modification of Muaz Khan's getScreenId.js. It uses loads an iframe 
 //  pointed at Muaz Khan's page, and then communicates with that Iframe. You can also point
 //  it at other urls.
@@ -50,31 +50,12 @@
      */
     var iframeUrl =  'https://www.webrtc-experiment.com/getSourceId/';
 
-    var iframe = document.createElement('iframe');
-    
-    iframe.onload = function() {
-        iframe.isLoaded = true;
-    };
-
-    iframe.src = iframeUrl;
-
-    iframe.style.display = 'none';
-
-    function postMessage() {
-        if (!iframe.isLoaded) {
-            setTimeout(postMessage, 100);
-            return;
-        }
-
-        iframe.contentWindow.postMessage({
-            captureSourceId: true
-        }, '*');
-    }
-
-    easyrtc.initDesktopStream = function(successCallback, failureCallback, streamName) {
+    easyrtc.initDesktopStream= function(successCallback, failureCallback, streamName) {
         // for Firefox:
         // sourceId == 'firefox'
         // screen_constraints = {...}
+        
+        
         
         if (!!navigator.mozGetUserMedia) {
             easyrtc._presetMediaConstraints = {
@@ -94,9 +75,7 @@
         postMessage();
 
         var cb = function(event) {
-            if (!event.data) {
-                return;
-            }
+            if (!event.data) return;
 
             if (event.data.chromeMediaSourceId) {
                 window.removeEventListener("message", cb);
@@ -114,8 +93,7 @@
                             }
                         },
                         audio: false
-                    };
-
+                    }
                     easyrtc.initMediaSource(successCallback, failureCallback, streamName);
                 }
             }
@@ -128,5 +106,26 @@
         window.addEventListener('message', cb);
     };
 
+
+    var iframe = document.createElement('iframe');
+    
+    function postMessage() {
+        if (!iframe.isLoaded) {
+            setTimeout(postMessage, 100);
+            return;
+        }
+
+        iframe.contentWindow.postMessage({
+            captureSourceId: true
+        }, '*');
+    }
+
+    iframe.onload = function() {
+        iframe.isLoaded = true;
+    };
+
+    iframe.src = iframeUrl;
+
+    iframe.style.display = 'none';
     (document.body || document.documentElement).appendChild(iframe);
 })();

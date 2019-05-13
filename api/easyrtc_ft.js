@@ -556,12 +556,11 @@ easyrtc_ft.buildFileSender = function(destUser, progressListener, options) {
  * {status:"progress", name:filename,
  *    received:received_size_in_bytes,
  *    size:file_size_in_bytes }
- * @param options is currently ignored.
  *  @example
  *
- *    easyrtc_ft.buildFileReceiver(
+ *    easyrtc_ft(
  *       function(otherGuy, filenamelist, wasAccepted) {  wasAccepted(true);},
- *       function(otherGuy, blob, filename) { easyrtc_ft.saveAs(blob, filename);},
+ *       function(otherGuy, blob, filename) { easyrtc_ft(blob, filename);},
  *       function(otherGuy, status) {  console.log("status:" + JSON.stringify(status))}
  *     );
  */
@@ -783,7 +782,7 @@ easyrtc_ft.saveAs = (function() {
      */
 
     /*global self */
-    /*jslint bitwise: true, regexp: true, confusion: true, vars: true, white: true,
+    /*jslint bitwise: true, regexp: true, confusion: true, es5: true, vars: true, white: true,
      plusplus: true */
 
     /*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */

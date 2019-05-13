@@ -22,7 +22,7 @@ Ubuntu EasyRTC Install Steps:
 
 5. Change to the easyrtc folder and then install node modules locally
     - `cd /var/nodes/easyrtc`
-    - `npm install`
+    - `sudo npm install`
 
 
 Windows EasyRTC Install Steps:
@@ -110,11 +110,8 @@ Running the server from the console may be the best approach for development. It
 2. Navigate to your EasyRTC application folder
     - copied from [server_example folder](../server_example/)
     - or using [Git Install Steps]() directly `cd server_example`
-    
-3. Install EasyRTC Sample Server dependencies from NPM
-    - npm install
 
-4. Run the server using the node command.
+3. Run the server using the node command.
     - `node server.js`
 
 
@@ -171,7 +168,7 @@ Below is the initial server program which will run an EasyRTC server along with 
     var http    = require("http");              // http server core module
     var express = require("express");           // web framework external module
     var io      = require("socket.io");         // web socket external module
-    var easyrtc = require("..");           // EasyRTC external module
+    var easyrtc = require("easyrtc");           // EasyRTC external module
 
     // Setup and configure Express http server. Expect a subfolder called "static" to be the web root.
     var httpApp = express();
@@ -317,9 +314,7 @@ Running the server from the console may be the best approach for development. It
 1. Open your console on the server.
     - In Windows you can use the provided Node.js console program located in the Start Menu.
 2. Navigate to your server_example folder
-3. Install EasyRTC Sample Server dependencies from NPM
-    - `npm install`
-4. Run the server using the node command.
+3. Run the server using the node command.
     - ex: `node server.js`
 
 Running EasyRTC as a Service in Ubuntu
@@ -382,7 +377,7 @@ Below is the initial server program which will run an EasyRTC server along with 
     var http    = require("http");              // http server core module
     var express = require("express");           // web framework external module
     var io      = require("socket.io");         // web socket external module
-    var easyrtc = require("..");           // EasyRTC external module
+    var easyrtc = require("easyrtc");           // EasyRTC external module
 
     // Setup and configure Express http server. Expect a subfolder called "static" to be the web root.
     var httpApp = express();

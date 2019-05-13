@@ -1,15 +1,14 @@
 var selfEasyrtcid = "";
-var supportsRecording = easyrtc.supportsRecording();
 
 function connect() {
-    if( !supportsRecording) {
+    if( !easyrtc.supportsRecording()) {
        window.alert("This browser does not support recording. Try chrome or firefox.");
-    } else {
-      document.getElementById("startRecording").disabled = false; 
-      if( easyrtc.isRecordingTypeSupported("h264")) document.getElementById("useH264").disabled = false;
-      if( easyrtc.isRecordingTypeSupported("vp9")) document.getElementById("useVP9").disabled = false;
-      if( easyrtc.isRecordingTypeSupported("vp8")) document.getElementById("useVP8").disabled = false; 
+       return;
     }
+
+    if( easyrtc.isRecordingTypeSupported("h264")) document.getElementById("useH264").disabled = false;
+    if( easyrtc.isRecordingTypeSupported("vp9")) document.getElementById("useVP9").disabled = false;
+    if( easyrtc.isRecordingTypeSupported("vp8")) document.getElementById("useVP8").disabled = false;
 
     easyrtc.setVideoDims(640,480);
     easyrtc.setRoomOccupantListener(convertListToButtons);
@@ -55,6 +54,7 @@ function performCall(otherEasyrtcid) {
 function loginSuccess(easyrtcid) {
     selfEasyrtcid = easyrtcid;
     document.getElementById("iam").innerHTML = "I am " + easyrtc.cleanId(easyrtcid);
+    document.getElementById("startRecording").disabled = false;
 }
 
 
