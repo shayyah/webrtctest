@@ -31,7 +31,8 @@
     "underscore": "1.5.x"
   },
   "scripts": {
-	"start":"node server_example/server.js",
+    "start": "npm run server",
+	"server":"node server_example/server.js",
     "lint": "grunt lint",
     "build": "grunt build",
     "test": "grunt test"
