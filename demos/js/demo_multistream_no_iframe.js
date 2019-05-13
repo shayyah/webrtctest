@@ -82,20 +82,24 @@ function createLocalVideo(stream, streamName) {
     labelBlock.appendChild(closeButton);
 }
 
+var localStreamCount = 0;
+
 function addSrcButton(buttonLabel, videoId) {
     var button = createLabelledButton(buttonLabel);
     button.onclick = function() {
+        var streamName = buttonLabel + localStreamCount;
+        localStreamCount++;        
         easyrtc.setVideoSource(videoId);
         easyrtc.initMediaSource(
                 function(stream) {
-                    createLocalVideo(stream, buttonLabel);
+                    createLocalVideo(stream, streamName);
                     if (otherEasyrtcid) {
-                        easyrtc.addStreamToCall(otherEasyrtcid, buttonLabel);
+                        easyrtc.addStreamToCall(otherEasyrtcid, streamName);
                     }
                 },
                 function(errCode, errText) {
                     easyrtc.showError(errCode, errText);
-                }, buttonLabel);
+                }, streamName);
     };
 }
 
@@ -255,9 +259,8 @@ var mypluginId = "tawk-desktop-capture/bemabaogbdfpbkkganibcmhbgjogabfj";
 
 setTimeout(
      function() {
-         document.getElementById("pluginstatus").innerHTML = easyrtc.isDesktopCaptureInstalled()
-             ?"Desktop capture ready"
-             :"Desktop capture not installed";
+         document.getElementById("pluginstatus").innerHTML = easyrtc.isDesktopCaptureInstalled() ? 
+                                                                "Desktop capture ready" : "Desktop capture not installed";
      }, 3000);
 
 document.getElementById("installPluginButton").onclick = function() {

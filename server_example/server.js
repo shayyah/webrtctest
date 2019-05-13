@@ -3,7 +3,13 @@ var http    = require("http");              // http server core module
 var express = require("express");           // web framework external module
 var serveStatic = require('serve-static');  // serve static files
 var socketIo = require("socket.io");        // web socket external module
-var easyrtc = require("../");               // EasyRTC external module
+
+// This sample is using the easyrtc from parent folder.
+// To use this server_example folder only without parent folder:
+// 1. you need to replace this "require("../");" by "require("easyrtc");"
+// 2. install easyrtc (npm i easyrtc --save) in server_example/package.json
+
+var easyrtc = require("../"); // EasyRTC internal module
 
 // Set process name
 process.title = "node-easyrtc";
@@ -12,9 +18,8 @@ process.title = "node-easyrtc";
 var app = express();
 app.use(serveStatic('static', {'index': ['index.html']}));
 
-var port = process.env.PORT || 8080;
 // Start Express http server on port 8080
-var webServer = http.createServer(app).listen(port);
+var webServer = http.createServer(app);
 
 // Start Socket.io so it attaches itself to Express server
 var socketServer = socketIo.listen(webServer, {"log level":1});
@@ -40,21 +45,36 @@ easyrtc.events.on("easyrtcAuth", function(socket, easyrtcid, msg, socketCallback
 // To test, lets print the credential to the console for every room join!
 easyrtc.events.on("roomJoin", function(connectionObj, roomName, roomParameter, callback) {
     console.log("["+connectionObj.getEasyrtcid()+"] Credential retrieved!", connectionObj.getFieldValueSync("credential"));
+  console.log('');
+    console.log('');
+      console.log('');
+    console.log('');
+	  console.log('salim  join room  '+roomName);
+      console.log('');
+        console.log('');
+          console.log('');
+            console.log('');
     easyrtc.events.defaultListeners.roomJoin(connectionObj, roomName, roomParameter, callback);
 });
 
 // Start EasyRTC server
 var rtc = easyrtc.listen(app, socketServer, null, function(err, rtcRef) {
     console.log("Initiated");
-
+    console.log('');
+      console.log('');
+        console.log('');
+      console.log('');
     rtcRef.events.on("roomCreate", function(appObj, creatorConnectionObj, roomName, roomOptions, callback) {
         console.log("roomCreate fired! Trying to create: " + roomName);
-
+        console.log('');
+          console.log('');
+            console.log('');
+              console.log('');
         appObj.events.defaultListeners.roomCreate(appObj, creatorConnectionObj, roomName, roomOptions, callback);
     });
 });
 
-//listen on port 8080
-webServer.listen(8080, function () {
-    console.log('listening on http://localhost:'+port);
+// Listen on port 8080
+webServer.listen(3000, function () {
+    console.log('listening on http://localhost:8080');
 });
