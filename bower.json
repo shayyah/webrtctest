@@ -11,7 +11,7 @@
   "description": "EasyRTC enables quick development of webRTC",
   "dependencies": {
     "socket.io-client": "^1.4.5",
-    "webrtc-adapter": "^6.4.0"
+  
   },
   "moduleType": [
     "globals"
