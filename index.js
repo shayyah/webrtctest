@@ -44,18 +44,15 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://rahaf-t.firebaseio.com"
 });
+
+
+
 // Send message for default URL
 app.get('/', function(req, res) {
   res.send('Server Working on port '+port);
 
 });
-app.get('/locations', function(req, res) {
-  fs.readFile('locations/index.htm',function (err, data){
-       res.writeHead(200, {'Content-Type': 'text/html','Content-Length':data.length});
-       res.write(data);
-       res.end();
-   });
-});
+
 // Use Api routes in the App
 app.use('/api', apiRoutes);
 /*app.use(function (req, res, next) {

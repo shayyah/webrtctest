@@ -18,6 +18,7 @@ var User = require('../models/userModel.js');
 var VideoConversation=require('../models/videoConversationModel.js');
 
 exports.register = function (req, res) {
+    
   console.log('regggggggggg');
   var id=req.body.id;
   var token=req.body.token;
@@ -34,7 +35,7 @@ exports.register = function (req, res) {
         }
         else
         {
-          res.json({message:'phone already exist'});
+          res.json({message:'user already exist'});
         }
       });
 
