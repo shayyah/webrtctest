@@ -16,8 +16,10 @@ router.get('/', function (req, res) {
 
   // Import user controller
 var userController=require('./controllers/userController');
-router.route('/user/register')
-  .post(userController.register);
+router.route('/user')
+  .post(userController.register)
+  .put(userController.setConsultant)
+  .get(userController.updateToken);
 router.route('/call')
   .post(userController.addnewroom)
   .put(userController.answercall)
