@@ -1,6 +1,16 @@
 var shortid = require('short-id');
 var fs=require('fs');
 var admin = require("firebase-admin");
+
+
+
+var serviceAccount = require("../serviceAccountKey.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://rahaf-t.firebaseio.com"
+});
+
 //var MongoClient = require('mongodb').MongoClient;
 //var db_uri = 'mongodb://127.0.0.1:27017/blind_support_data';
 //var db_params = { useNewUrlParser : true };
@@ -8,6 +18,7 @@ var admin = require("firebase-admin");
 //MongoClient.connect(db_uri, db_params,function(err,db){
 //    dbo =db.db('blind_support_data');
 //});
+
 var User = require('../models/userModel.js');
 var VideoConversation=require('../models/videoConversationModel.js');
 

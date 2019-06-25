@@ -16,7 +16,6 @@ var fs=require('fs');
 var admin = require("firebase-admin");
 
 
-
 // Configure bodyparser to handle post requests
 app.use(bodyParser.urlencoded({
     extended: true
@@ -43,7 +42,7 @@ var serviceAccount = require("./serviceAccountKey.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://heroku_0gk9f6rv.firebaseio.com"
+  databaseURL: "https://rahaf-t.firebaseio.com"
 });
 // Send message for default URL
 app.get('/', function(req, res) {
