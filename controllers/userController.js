@@ -17,8 +17,9 @@ admin.initializeApp({
 var User = require('../models/userModel.js');
 var VideoConversation=require('../models/videoConversationModel.js');
 
+
 exports.register = function (req, res) {
-    
+//  console.log(uu);
   console.log('regggggggggg');
   var id=req.body.id;
   var token=req.body.token;
