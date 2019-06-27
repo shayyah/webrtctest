@@ -97,6 +97,7 @@ exports.register = function (req, res) {
                   CreateVideoConversation(id,userid,advisorid,type,function(conversation){
                       res.json(conversation);
                       sendnotification(conversation,user,advisor);
+                    CloseAfterTime(id);
                   });
 
               }
@@ -113,6 +114,28 @@ exports.register = function (req, res) {
       });
 
   }
+  async function CloseAfterTime(roomid)
+  {
+    console.log('close after time');
+    var time=1000*60*60;
+    await sleep(time);
+    console.log('reeeeeeturn');
+      getRoom(roomid,function(room){
+          if(room!=null&&room.isDone=='')
+          {
+            room.isDone='no';
+            room.save(function(err){
+                if(err)console.log(err);
+                else console.log('close room done');
+            });
+          }
+      });
+  }
+  function sleep(ms){
+    return new Promise(resolve=>{
+        setTimeout(resolve,ms)
+    });
+}
   exports.answercall=function(req,res){
     var advisorid=req.body.advisorid;
     var roomid= req.body.roomid;
@@ -157,8 +180,8 @@ exports.register = function (req, res) {
     GetUser(advisorid,function(advisor){
         if(advisor!=null)
         {
-            getUnansweredCall(advisorid,function(calls){
-              res.json({calls:calls});
+            getUnansweredCall(advisorid,function(call){
+              res.json(call);
             });
         }
         else{
@@ -176,7 +199,7 @@ exports.register = function (req, res) {
   {
     var query={'advisorid':id,'isDone':''};
 
-  VideoConversation.find(query,function(err,result){
+  VideoConversation.findOne(query,function(err,result){
     if(err)callback(null);
     callback(result);
   });

@@ -13,7 +13,7 @@ var server = require('http').Server(app);
 var serveStatic = require('serve-static');  // serve static files
 var cors = require('cors');
 var fs=require('fs');
-var admin = require("firebase-admin");
+admin = require("firebase-admin");
 
 
 // Configure bodyparser to handle post requests
