@@ -86,7 +86,8 @@ exports.register ={
     });
   }
 };
-  exports.addnewroom=function(req,res){
+  exports.addnewroom={
+    handler:function(req,res){
     console.log('add new room');
       var id=req.payload.roomid;
       var userid=req.payload.userid;
@@ -102,25 +103,26 @@ exports.register ={
               if(advisor!=null&&advisor.role!=null&&advisor.role=='Consultant')
               {
                   CreateVideoConversation(id,userid,advisorid,type,function(conversation){
-                      res.json(conversation);
+                      res(conversation);
                       sendnotification(conversation,user,advisor);
                     CloseAfterTime(id);
                   });
 
               }
               else {
-                    res.json({message:'error'});
+                    res({message:'error'});
 
               }
           });
 
         }
         else {
-            res.json({message:'error'});
+            res({message:'error'});
         }
       });
 
   }
+};
   async function CloseAfterTime(roomid)
   {
     console.log('close after time');
@@ -143,7 +145,8 @@ exports.register ={
         setTimeout(resolve,ms)
     });
 }
-  exports.answercall=function(req,res){
+  exports.answercall={
+    handler:function(req,res){
     var advisorid=req.payload.advisorid;
     var roomid= req.payload.roomid;
     var action=req.payload.action;
@@ -164,38 +167,41 @@ exports.register ={
                     }
                     room.save(function(err){
                       if(err){
-                        res.json({message:'error'});
+                        res({message:'error'});
                       }
                       else{
-                        res.json({message:'done'});
+                        res({message:'done'});
                       }
                     });
 
                 }
                 else {
-                    res.json({message:'error'});
+                    res({message:'error'});
                 }
             });
         }
         else {
-            res.json({message:'error'});
+            res({message:'error'});
         }
     });
   }
-  exports.getAllUnansweredCall=function(req,res){
+};
+  exports.getAllUnansweredCall={
+    handler:function(req,res){
     var advisorid=req.query.id;
     GetUser(advisorid,function(advisor){
         if(advisor!=null)
         {
             getUnansweredCall(advisorid,function(call){
-              res.json(call);
+              res(call);
             });
         }
         else{
-            res.json({message:'error'});
+            res({message:'error'});
         }
   });
 }
+};
   function getRoom(id,callback){
     VideoConversation.findOne({roomid:id},function(err,user){
         if(err)callback(null);
