@@ -77,7 +77,7 @@ server.register(require('vision'), function (error) {
 
 
 console.log(port);
-app.use(cors());
+//app.use(cors());
 
 var serviceAccount = require("./serviceAccountKey.json");
 
@@ -89,10 +89,10 @@ admin.initializeApp({
 
 
 // Send message for default URL
-app.get('/', function(req, res) {
-  res.send('Server Working on port '+port);
-
-});
+//app.get('/', function(req, res) {
+//  res.send('Server Working on port '+port);
+//
+//});
 
 // Use Api routes in the App
 //app.use('/api', apiRoutes);
