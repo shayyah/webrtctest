@@ -18,32 +18,36 @@ var User = require('../models/userModel.js');
 var VideoConversation=require('../models/videoConversationModel.js');
 
 
-exports.register = function (req, res) {
+exports.register ={
+  handler: function (req, res) {
 //  console.log(uu);
   console.log('regggggggggg');
-  var id=req.body.id;
-  var token=req.body.token;
-  var name=req.body.name;
-  var role=req.body.role;
+
+  var id=req.payload.id;
+  var token=req.payload.token;
+  var name=req.payload.name;
+  var role=req.payload.role;
       GetUser(id,function(user){
         if(user==null)
         {
             CreateUserAndAddToDataBase(id,token,name,role,function(myUser){
             if(myUser!=null)
-              res.json(myUser);
-            else res.json({message:'error'});
+              res(myUser);
+            else res({message:'error'});
           });
         }
         else
         {
-          res.json({message:'user already exist'});
+          res({message:'user already exist'});
         }
       });
 
     //  console.log('name   '+ req.body.name);
 
   }
-  exports.updateToken=function(req,res){
+};
+  exports.updateToken ={
+    handler:function(req,res){
       var id=req.query.id;
       var token=req.query.token;
       GetUser(id,function(user){
@@ -51,18 +55,20 @@ exports.register = function (req, res) {
           {
                 user.firebaseId=token;
                 user.save(function(err){
-                    if(err)res.json({message:'error'});
-                    else res.json(user);
+                    if(err)res({message:'error'});
+                    else res(user);
                 });
           }
           else {
-            res.json({message:'error'});
+            res({message:'error'});
           }
       });
   }
-  exports.setConsultant=function(req,res){
+};
+  exports.setConsultant={
+    handler:function(req,res){
     console.log('set Consultant');
-    var id =req.body.id;
+    var id =req.payload.id;
     GetUser(id,function(user){
         if(user!=null)
         {
@@ -79,12 +85,13 @@ exports.register = function (req, res) {
         }
     });
   }
+};
   exports.addnewroom=function(req,res){
     console.log('add new room');
-      var id=req.body.roomid;
-      var userid=req.body.userid;
-      var advisorid=req.body.advisorid;
-      var type=req.body.type;
+      var id=req.payload.roomid;
+      var userid=req.payload.userid;
+      var advisorid=req.payload.advisorid;
+      var type=req.payload.type;
 
       GetUser(userid,function(user){
         console.log(user);
@@ -137,9 +144,9 @@ exports.register = function (req, res) {
     });
 }
   exports.answercall=function(req,res){
-    var advisorid=req.body.advisorid;
-    var roomid= req.body.roomid;
-    var action=req.body.action;
+    var advisorid=req.payload.advisorid;
+    var roomid= req.payload.roomid;
+    var action=req.payload.action;
     GetUser(advisorid,function(advisor){
       console.log(advisor);
         if(advisor!=null&&advisor.role!=null&&advisor.role=='Consultant')

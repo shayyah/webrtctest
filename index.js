@@ -7,21 +7,32 @@ let mongoose = require('mongoose');
 // Initialize the app
 let app = express();
 // Import routes
-let apiRoutes = require("./api_routes");
+//let apiRoutes = require("./api_routes");
 var path = require('path');
-var server = require('http').Server(app);
+//var server = require('http').Server(app);
+
 var serveStatic = require('serve-static');  // serve static files
 var cors = require('cors');
 var fs=require('fs');
 admin = require("firebase-admin");
 
 
-// Configure bodyparser to handle post requests
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.use(bodyParser.json());
+var Hapi = require('hapi');
+var Route = require('./route');
+var Config = require('./config');
 
+var server = new Hapi.Server();
+//var server2 = new Hapi.Server();
+
+
+// Configure bodyparser to handle post requests
+//app.use(bodyParser.urlencoded({
+//    extended: true
+//}));
+
+//app.use(bodyParser.json());
+
+app.config = Config;
 //app.use(express.static(path.join(__dirname, './Content')));
 // Connect to Mongoose and set connection variable
 var db_uri = process.env.MONGODB_URI || process.env.MONGOHQ_URL ||'mongodb://127.0.0.1:27017/rahafat_support_data';
@@ -35,6 +46,36 @@ mongoose.connect(db_uri, db_params,function(err,res){
 var db = mongoose.connection;
 // Setup server port
 var port = process.env.PORT || 3000;
+
+
+server.connection({ routes: { cors: true }, port:port});
+
+
+
+/*server.register([{
+    register: require('hapi-bodyparser'),
+    options: {
+         parser: { allowDots: true, strictNullHandling: true },
+         sanitizer: {
+             trim: true,
+             stripNullorEmpty: true
+         },
+         merge: false,
+         body: false
+    }
+}], function (err) {
+    // Insert your preferred error handling here...
+});
+*/
+server.register(require('inert'));
+
+server.register(require('vision'), function (error) {
+  if (error) {
+    console.log('Failed to load vision.');
+  }
+});
+
+
 console.log(port);
 app.use(cors());
 
@@ -54,7 +95,21 @@ app.get('/', function(req, res) {
 });
 
 // Use Api routes in the App
-app.use('/api', apiRoutes);
+//app.use('/api', apiRoutes);
+server.route(Route.endpoints);
+
+server.views({
+  engines: {
+    html: require('handlebars')
+  },
+  relativeTo: __dirname,
+  path: './view'
+});
+
+server.start(function() {
+  console.log('Server started at ' + server.info.uri + '.');
+});
+
 /*app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
@@ -75,6 +130,8 @@ app.use('/api', apiRoutes);
 //app.listen(port, function () {
 //   console.log("Running blind_support server on port " + port);
 //});
-server.listen(port,function(){
-  console.log("Running blind_support server on port " + port);
-});
+
+
+//server.listen(port,function(){
+//  console.log("Running blind_support server on port " + port);
+//});
