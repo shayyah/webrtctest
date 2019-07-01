@@ -5,7 +5,7 @@ let bodyParser = require('body-parser');
 // Import Mongoose
 let mongoose = require('mongoose');
 // Initialize the app
-let app = express();
+let app = {};
 // Import routes
 //let apiRoutes = require("./api_routes");
 var path = require('path');
@@ -48,7 +48,7 @@ var db = mongoose.connection;
 var port = process.env.PORT || 3000;
 
 
-server.connection({ routes: { cors: true }, port:port});
+server.connection({ routes: { cors: true }, port:app.config.server.port});
 
 
 
