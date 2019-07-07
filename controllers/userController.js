@@ -158,6 +158,7 @@ exports.register ={
               console.log(room);
                 if(room!=null)
                 {
+                  if(room.isDone==''){
                     if(action=='yes')
                     {
                         room.isDone='yes';
@@ -173,6 +174,10 @@ exports.register ={
                         res({message:'done'});
                       }
                     });
+                  }
+                  else {
+                      res({message:'ended'});
+                  }
 
                 }
                 else {
@@ -202,6 +207,30 @@ exports.register ={
   });
 }
 };
+  function endCall(roomid,callback){
+    getRoom(roomid,function(room){
+      console.log(room);
+        if(room!=null)
+        {
+
+                room.isDone='ended';
+
+            room.save(function(err){
+              if(err){
+                callback({message:'error'});
+              }
+              else{
+                callback({message:'done'});
+              }
+            });
+
+        }
+        else {
+            callback({message:'error'});
+        }
+    });
+  }
+
   function getRoom(id,callback){
     VideoConversation.findOne({roomid:id},function(err,user){
         if(err)callback(null);
