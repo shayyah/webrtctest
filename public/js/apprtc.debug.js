@@ -3568,6 +3568,7 @@ var AppController = function(loadingParams) {
         var recentlyUsedList = new RoomSelection.RecentlyUsedList;
         recentlyUsedList.pushRecentRoom(this.loadingParams_.roomId);
         this.finishCallSetup_(this.loadingParams_.roomId);
+
       }.bind(this);
       if (this.loadingParams_.bypassJoinConfirmation) {
         $(UI_CONSTANTS.confirmJoinButton).onclick();
@@ -3661,6 +3662,9 @@ AppController.prototype.hangup_ = function() {
   this.call_.hangup(true);
   document.onkeypress = null;
   window.onmousemove = null;
+  //console.log('wwwwwwwwwwhhhhhhhhhhhhh');
+  //sendAsyncUrlRequest("POST", '/leave', JSON.stringify({clientId:'1',roomId:'2'}));
+
 };
 AppController.prototype.onRemoteHangup_ = function() {
   this.displayStatus_("The remote side hung up.");
@@ -3918,7 +3922,10 @@ AppController.IconSet_.prototype.toggle = function() {
   }
 };
 var Call = function(params) {
+
   this.params_ = params;
+  console.log("caaaaaaaallllllllllllll");
+  console.log(this.params_);
   this.roomServer_ = params.roomServer || "";
   this.channel_ = new SignalingChannel(params.wssUrl, params.wssPostUrl);
   this.channel_.onmessage = this.onRecvSignalingChannelMessage_.bind(this);
@@ -3966,6 +3973,7 @@ Call.prototype.restart = function() {
   this.start(this.params_.previousRoomId);
 };
 Call.prototype.hangup = function(async) {
+//  console.log('hhhhhhhhhhhhhhhang');
   this.startTime = null;
   if (isChromeApp()) {
     this.clearCleanupQueue_();
@@ -3990,7 +3998,8 @@ Call.prototype.hangup = function(async) {
   var steps = [];
   steps.push({step:function() {
     var path = this.getLeaveUrl_();
-    return sendUrlRequest("POST", path, async);
+    console.log("get leave url" + JSON.stringify({roomId:this.params_.roomId ,clientId:this.params_.clientId}));
+    return sendUrlRequest("POST", path,async,{});
   }.bind(this), errorString:"Error sending /leave:"});
   steps.push({step:function() {
     this.channel_.send(JSON.stringify({type:"bye"}));
@@ -4031,8 +4040,11 @@ Call.prototype.hangup = function(async) {
   return Promise.resolve();
 };
 Call.prototype.getLeaveUrl_ = function() {
-  return this.roomServer_ + "/leave/" + this.params_.roomId + "/" + this.params_.clientId;
+  return this.roomServer_ + "/leave/" + this.params_.roomId + "/"+this.params_.clientId ; /// + this.params_.clientId;
 };
+// Call.prototype.getLeaveUrl_ = function() {
+//   return this.roomServer_ + "/leave";
+// };
 Call.prototype.onRemoteHangup = function() {
   this.startTime = null;
   this.params_.isInitiator = true;
@@ -4232,7 +4244,7 @@ Call.prototype.joinRoom_ = function() {
     if (!this.params_.roomId) {
       reject(Error("Missing room id."));
     }
-    var path = this.roomServer_ + "/join/" + this.params_.roomId + window.location.search;
+    var path = this.roomServer_ + "/join/" + this.params_.roomId+'/'+ this.params_.clientId +window.location.search;
     sendAsyncUrlRequest("POST", path).then(function(response) {
       var responseObj = parseJSON(response);
       if (!responseObj) {

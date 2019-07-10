@@ -9,9 +9,9 @@ exports.endpoints = [
   { method: 'PUT', path: '/call', config: UserController.answercall },
   { method: 'GET', path: '/call', config: UserController.getAllUnansweredCall },
   { method: 'GET', path: '/', config: Index.main },
-  { method: 'POST', path: '/join/{roomId}', config: Room.join },
+  { method: 'POST', path: '/join/{roomId}/{clientId}', config: Room.join },
   { method: 'POST', path: '/message/{roomId}/{clientId}', config: Room.message },
-  { method: 'GET', path: '/r/{roomId}', config: Room.main },
+  { method: 'GET', path: '/r/{roomId}/{clientId}', config: Room.main },
   { method: 'POST', path: '/leave/{roomId}/{clientId}', config: Room.leave },
   { method: 'POST', path: '/turn', config: Index.turn },
   { method: 'GET', path: '/{param*}', handler: {

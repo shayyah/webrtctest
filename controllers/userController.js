@@ -207,7 +207,7 @@ exports.register ={
   });
 }
 };
-  function endCall(roomid,callback){
+exports.endCall=  function(roomid,callback){
     getRoom(roomid,function(room){
       console.log(room);
         if(room!=null)
@@ -315,6 +315,13 @@ function CreateUserAndAddToDataBase(rid,rfirbase,rname,rrole,callback)
         callback(user);
     });
 
+  }
+  exports.getRoom=function(id,callback){
+      console.log('getRoom');
+      VideoConversation.findOne({roomid:id},function(err,room){
+        if(err)callback(null);
+        callback(room);
+      });
   }
 exports.getUser=function(id,callback) {
   console.log('getUser');
