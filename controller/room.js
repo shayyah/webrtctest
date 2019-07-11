@@ -170,7 +170,7 @@ exports.main = {
       if(user!=null){
 
         UserController.getRoom(roomId,function(room){
-
+          console.log(room);
           if(room!=null&&room.isDone!='no'&&room.isDone!='ended'){
            console.log(room.isDone);
               var key = Common.getCacheKeyForRoom(request.headers['host'], roomId);
