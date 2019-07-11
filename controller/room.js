@@ -189,8 +189,10 @@ exports.main = {
               //  request.params.video='false';
               //  console.log(request.params.video+'     '+request.params.audio);
               if(myroom.type!=null&&myroom.type=='audio'){
+
                 request.params.video='false';
               }
+              console.log(request.params.video);
                 var params = Common.getRoomParameters(request, roomId, clientId, null);
                 console.log(params);
                 if(user.role!='Consultant')
