@@ -169,10 +169,10 @@ exports.main = {
 
       if(user!=null){
 
-        UserController.getRoom(roomId,function(room){
-          console.log(room);
-          if(room!=null&&room.isDone!='no'&&room.isDone!='ended'){
-           console.log(room.isDone);
+        UserController.getRoom(roomId,function(myroom){
+          console.log(myroom);
+          if(myroom!=null&&myroom.isDone!='no'&&myroom.isDone!='ended'){
+           console.log(myroom.isDone);
               var key = Common.getCacheKeyForRoom(request.headers['host'], roomId);
 
               rooms.get(key, function (error, room) {
@@ -188,13 +188,13 @@ exports.main = {
                 }
               //  request.params.video='false';
               //  console.log(request.params.video+'     '+request.params.audio);
-              if(room.type!=null&&room.type=='audio'){
+              if(myroom.type!=null&&myroom.type=='audio'){
                 request.params.video='false';
               }
                 var params = Common.getRoomParameters(request, roomId, clientId, null);
                 console.log(params);
                 if(user.role!='Consultant')
-                  UserController.onUserOpenRoomUrl(room);
+                  UserController.onUserOpenRoomUrl(myroom);
                 reply.view('index_template', params);
               });
             }
