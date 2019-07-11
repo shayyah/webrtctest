@@ -104,7 +104,7 @@ exports.register ={
               {
                   CreateVideoConversation(id,userid,advisorid,type,function(conversation){
                       res(conversation);
-                      sendnotification(conversation,user,advisor);
+                    //  sendnotification(conversation,user,advisor);
                     CloseAfterTime(id);
                   });
 
@@ -123,10 +123,24 @@ exports.register ={
 
   }
 };
+exports.onUserOpenRoomUrl=function(room){
+    GetUser(room.userid,function(user){
+      if(user!=null)
+      {
+        GetUser(room.advisorid,function(advisor){
+            if(advisor!=null){
+              console.log(room.roomid+'   notifocationsend');
+                sendnotification(room,user,advisor);
+            }
+        });
+      }
+
+    });
+}
   async function CloseAfterTime(roomid)
   {
     console.log('close after time');
-    var time=1000*60*60;
+    var time=1000*60*10;
     await sleep(time);
     console.log('reeeeeeturn');
       getRoom(roomid,function(room){
@@ -316,6 +330,7 @@ function CreateUserAndAddToDataBase(rid,rfirbase,rname,rrole,callback)
     });
 
   }
+
   exports.getRoom=function(id,callback){
       console.log('getRoom');
       VideoConversation.findOne({roomid:id},function(err,room){

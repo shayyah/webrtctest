@@ -3973,7 +3973,7 @@ Call.prototype.restart = function() {
   this.start(this.params_.previousRoomId);
 };
 Call.prototype.hangup = function(async) {
-//  console.log('hhhhhhhhhhhhhhhang');
+  console.log('hhhhhhhhhhhhhhhang');
   this.startTime = null;
   if (isChromeApp()) {
     this.clearCleanupQueue_();

@@ -172,6 +172,7 @@ exports.main = {
         UserController.getRoom(roomId,function(room){
 
           if(room!=null&&room.isDone!='no'&&room.isDone!='ended'){
+           console.log(room.isDone);
               var key = Common.getCacheKeyForRoom(request.headers['host'], roomId);
 
               rooms.get(key, function (error, room) {
@@ -185,18 +186,27 @@ exports.main = {
                     return;
                   }
                 }
-
+              //  request.params.video='false';
+              //  console.log(request.params.video+'     '+request.params.audio);
+              if(room.type!=null&&room.type=='audio'){
+                request.params.video='false';
+              }
                 var params = Common.getRoomParameters(request, roomId, clientId, null);
                 console.log(params);
+                if(user.role!='Consultant')
+                  UserController.onUserOpenRoomUrl(room);
                 reply.view('index_template', params);
               });
             }
+            else  reply('');
         });
       }
+      else  reply('');
   });
   }
 
 };
+
 
 exports.join = {
   handler: function (request, reply) {
