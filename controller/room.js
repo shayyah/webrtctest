@@ -235,6 +235,7 @@ exports.join = {
 
             request.params.video='false';
           }
+          console.log('join   '+request.params.video);
           var params = Common.getRoomParameters(request, roomId, clientId, result.is_initiator);
           params.messages = result.messages;
           response = {
