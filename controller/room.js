@@ -218,8 +218,8 @@ exports.join = {
     var isLoopback = request.params.debug == 'loopback';
     var response = null;
     UserController.getRoom(roomId,function(myroom){
-
-
+      if(myroom!=null&&myroom.isDone!='no'&&myroom.isDone!='ended')
+      {
         addClientToRoom(request, roomId, clientId, isLoopback, function(error, result) {
           if (error) {
             console.error('Error adding client to room: ' + error + ', room_state=' + result.room_state);
@@ -247,8 +247,11 @@ exports.join = {
           console.log('User ' + clientId + ' joined room ' + roomId);
           console.log('Room ' + roomId + ' has state ' + result.room_state);
         });
-
+        }
+        else reply('');
     });
+
+
   }
 };
 
