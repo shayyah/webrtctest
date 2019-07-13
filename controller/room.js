@@ -217,29 +217,36 @@ exports.join = {
     var clientId = request.params.clientId;//Common.generateRandom(8);
     var isLoopback = request.params.debug == 'loopback';
     var response = null;
+    UserController.getRoom(roomId,function(myroom){
 
-    addClientToRoom(request, roomId, clientId, isLoopback, function(error, result) {
-      if (error) {
-        console.error('Error adding client to room: ' + error + ', room_state=' + result.room_state);
-        response = {
-          result: error,
-          params: result
-        };
-        reply(JSON.stringify(response));
 
-        return;
-      }
+        addClientToRoom(request, roomId, clientId, isLoopback, function(error, result) {
+          if (error) {
+            console.error('Error adding client to room: ' + error + ', room_state=' + result.room_state);
+            response = {
+              result: error,
+              params: result
+            };
+            reply(JSON.stringify(response));
 
-      var params = Common.getRoomParameters(request, roomId, clientId, result.is_initiator);
-      params.messages = result.messages;
-      response = {
-        result: 'SUCCESS',
-        params: params
-      };
-      reply(JSON.stringify(response));
+            return;
+          }
+          if(myroom.type!=null&&myroom.type=='audio'){
 
-      console.log('User ' + clientId + ' joined room ' + roomId);
-      console.log('Room ' + roomId + ' has state ' + result.room_state);
+            request.params.video='false';
+          }
+          var params = Common.getRoomParameters(request, roomId, clientId, result.is_initiator);
+          params.messages = result.messages;
+          response = {
+            result: 'SUCCESS',
+            params: params
+          };
+          reply(JSON.stringify(response));
+
+          console.log('User ' + clientId + ' joined room ' + roomId);
+          console.log('Room ' + roomId + ' has state ' + result.room_state);
+        });
+
     });
   }
 };
