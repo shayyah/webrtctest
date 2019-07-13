@@ -93,7 +93,7 @@ exports.register ={
       var userid=req.payload.userid;
       var advisorid=req.payload.advisorid;
       var type=req.payload.type;
-
+      console.log('typeeee   '+req.payload.type);
       GetUser(userid,function(user){
         console.log(user);
         if(user!=null)
@@ -102,11 +102,18 @@ exports.register ={
             console.log(advisor);
               if(advisor!=null&&advisor.role!=null&&advisor.role=='Consultant')
               {
-                  CreateVideoConversation(id,userid,advisorid,type,function(conversation){
-                      res(conversation);
-                    //  sendnotification(conversation,user,advisor);
-                    CloseAfterTime(id);
-                  });
+                GetRoom(id,function(room){
+                  if(room==null)
+                  {
+                        CreateVideoConversation(id,userid,advisorid,type,function(conversation){
+                          res(conversation);
+                        //  sendnotification(conversation,user,advisor);
+                        CloseAfterTime(id);
+                      });
+                  }
+                  else res({message:'error'});
+                });
+
 
               }
               else {
@@ -143,7 +150,7 @@ exports.onUserOpenRoomUrl=function(room){
     var time=1000*60*10;
     await sleep(time);
     console.log('reeeeeeturn');
-      getRoom(roomid,function(room){
+      GetRoom(roomid,function(room){
           if(room!=null&&room.isDone=='')
           {
             room.isDone='no';
@@ -168,7 +175,7 @@ exports.onUserOpenRoomUrl=function(room){
       console.log(advisor);
         if(advisor!=null&&advisor.role!=null&&advisor.role=='Consultant')
         {
-            getRoom(roomid,function(room){
+            GetRoom(roomid,function(room){
               console.log(room);
                 if(room!=null)
                 {
@@ -222,7 +229,7 @@ exports.onUserOpenRoomUrl=function(room){
 }
 };
 exports.endCall=  function(roomid,callback){
-    getRoom(roomid,function(room){
+    GetRoom(roomid,function(room){
       console.log(room);
         if(room!=null)
         {
@@ -245,7 +252,7 @@ exports.endCall=  function(roomid,callback){
     });
   }
 
-  function getRoom(id,callback){
+  function GetRoom(id,callback){
     VideoConversation.findOne({roomid:id},function(err,user){
         if(err)callback(null);
         callback(user);
