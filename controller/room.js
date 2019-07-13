@@ -308,6 +308,7 @@ exports.message = {
 
 exports.leave = {
   handler: function (request, reply) {
+    console.log('leeeeeeeeeeeeveeeeeee');
     var roomId = request.params.roomId;
     var clientId = request.params.clientId;
     console.log(roomId+'    '+clientId);
