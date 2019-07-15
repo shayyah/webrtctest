@@ -4138,6 +4138,7 @@ Call.prototype.maybeGetMedia_ = function() {
           return device.kind === "audioinput";
         });
         var constraints = {video:cam && mediaConstraints.video, audio:mic && mediaConstraints.audio};
+        console.log("constraints ---- : " + constraints);
         return navigator.mediaDevices.getUserMedia(constraints);
       });
     }).then(function(stream) {
@@ -4148,7 +4149,7 @@ Call.prototype.maybeGetMedia_ = function() {
   console.log(stream);
     }.bind(this)).catch(function(error) {
       this.onError_("Error getting user media: " + error.message);
-    
+
       this.onUserMediaError_(error);
     }.bind(this));
   } else {
