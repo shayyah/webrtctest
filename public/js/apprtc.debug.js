@@ -4140,10 +4140,13 @@ Call.prototype.maybeGetMedia_ = function() {
         return navigator.mediaDevices.getUserMedia(constraints);
       });
     }).then(function(stream) {
+        console.log(mediaConstraints);
       trace("Got access to local media with mediaConstraints:\n" + "  '" + JSON.stringify(mediaConstraints) + "'");
       this.onUserMediaSuccess_(stream);
+  console.log(stream);
     }.bind(this)).catch(function(error) {
       this.onError_("Error getting user media: " + error.message);
+      console.log("Error getting user media: " + error.message);
       this.onUserMediaError_(error);
     }.bind(this));
   } else {
