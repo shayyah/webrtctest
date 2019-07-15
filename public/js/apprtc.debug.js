@@ -4121,11 +4121,12 @@ Call.prototype.connectToRoom_ = function(roomId) {
   }.bind(this));
 };
 Call.prototype.maybeGetMedia_ = function() {
-    console.log("mediaConstraints   " + JSON.stringify(mediaConstraints) + "'");
+
   var needStream = this.params_.mediaConstraints.audio !== false || this.params_.mediaConstraints.video !== false;
   var mediaPromise = null;
   if (needStream) {
     var mediaConstraints = this.params_.mediaConstraints;
+      console.log("mediaConstraints   " + JSON.stringify(mediaConstraints) + "'");
     mediaPromise = navigator.mediaDevices.getUserMedia(mediaConstraints).catch(function(error) {
       if (error.name !== "NotFoundError") {
         throw error;
