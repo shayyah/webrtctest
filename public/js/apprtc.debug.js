@@ -4142,8 +4142,8 @@ Call.prototype.maybeGetMedia_ = function() {
         return navigator.mediaDevices.getUserMedia(constraints);
       });
     }).then(function(stream) {
-
-        this.onUserMediaSuccess_(stream);
+        console.log("Got access to local media with mediaConstraints:\n" + "  '" + JSON.stringify(mediaConstraints) + "'");
+      
       trace("Got access to local media with mediaConstraints:\n" + "  '" + JSON.stringify(mediaConstraints) + "'");
       this.onUserMediaSuccess_(stream);
   console.log(stream);
