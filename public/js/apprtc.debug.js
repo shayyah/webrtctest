@@ -4126,7 +4126,6 @@ Call.prototype.maybeGetMedia_ = function() {
   var mediaPromise = null;
   if (needStream) {
     var mediaConstraints = this.params_.mediaConstraints;
-      console.log("mediaConstraints   " + JSON.stringify(mediaConstraints) + "'");
     mediaPromise = navigator.mediaDevices.getUserMedia(mediaConstraints).catch(function(error) {
       if (error.name !== "NotFoundError") {
         throw error;
@@ -4149,7 +4148,7 @@ Call.prototype.maybeGetMedia_ = function() {
   console.log(stream);
     }.bind(this)).catch(function(error) {
       this.onError_("Error getting user media: " + error.message);
-      console.log("Error getting user media: " + error.message);
+    
       this.onUserMediaError_(error);
     }.bind(this));
   } else {
