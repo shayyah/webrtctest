@@ -4121,6 +4121,7 @@ Call.prototype.connectToRoom_ = function(roomId) {
   }.bind(this));
 };
 Call.prototype.maybeGetMedia_ = function() {
+    console.log("mediaConstraints   " + JSON.stringify(mediaConstraints) + "'");
   var needStream = this.params_.mediaConstraints.audio !== false || this.params_.mediaConstraints.video !== false;
   var mediaPromise = null;
   if (needStream) {
@@ -4140,7 +4141,7 @@ Call.prototype.maybeGetMedia_ = function() {
         return navigator.mediaDevices.getUserMedia(constraints);
       });
     }).then(function(stream) {
-        console.log("mediaConstraints   " + JSON.stringify(mediaConstraints) + "'");
+
         this.onUserMediaSuccess_(stream);
       trace("Got access to local media with mediaConstraints:\n" + "  '" + JSON.stringify(mediaConstraints) + "'");
       this.onUserMediaSuccess_(stream);
