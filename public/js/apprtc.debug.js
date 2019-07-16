@@ -3530,13 +3530,13 @@ var AppController = function(loadingParams) {
   this.remoteVideo_ = $(UI_CONSTANTS.remoteVideo);
   this.videosDiv_ = $(UI_CONSTANTS.videosDiv);
   this.roomLinkHref_ = $(UI_CONSTANTS.roomLinkHref);
-  // this.rejoinDiv_ = $(UI_CONSTANTS.rejoinDiv);
-  // this.rejoinLink_ = $(UI_CONSTANTS.rejoinLink);
-  // this.newRoomLink_ = $(UI_CONSTANTS.newRoomLink);
-  // this.rejoinButton_ = $(UI_CONSTANTS.rejoinButton);
-  // this.newRoomButton_ = $(UI_CONSTANTS.newRoomButton);
-  // this.newRoomButton_.addEventListener("click", this.onNewRoomClick_.bind(this), false);
-  // this.rejoinButton_.addEventListener("click", this.onRejoinClick_.bind(this), false);
+  this.rejoinDiv_ = $(UI_CONSTANTS.rejoinDiv);
+  this.rejoinLink_ = $(UI_CONSTANTS.rejoinLink);
+  this.newRoomLink_ = $(UI_CONSTANTS.newRoomLink);
+  this.rejoinButton_ = $(UI_CONSTANTS.rejoinButton);
+  this.newRoomButton_ = $(UI_CONSTANTS.newRoomButton);
+  this.newRoomButton_.addEventListener("click", this.onNewRoomClick_.bind(this), false);
+  this.rejoinButton_.addEventListener("click", this.onRejoinClick_.bind(this), false);
   this.muteAudioIconSet_ = new AppController.IconSet_(UI_CONSTANTS.muteAudioSvg);
   this.muteVideoIconSet_ = new AppController.IconSet_(UI_CONSTANTS.muteVideoSvg);
   this.fullscreenIconSet_ = new AppController.IconSet_(UI_CONSTANTS.fullscreenSvg);
@@ -3568,7 +3568,6 @@ var AppController = function(loadingParams) {
         var recentlyUsedList = new RoomSelection.RecentlyUsedList;
         recentlyUsedList.pushRecentRoom(this.loadingParams_.roomId);
         this.finishCallSetup_(this.loadingParams_.roomId);
-
       }.bind(this);
       if (this.loadingParams_.bypassJoinConfirmation) {
         $(UI_CONSTANTS.confirmJoinButton).onclick();
@@ -3629,9 +3628,9 @@ AppController.prototype.setupUi_ = function() {
   this.iconEventSetup_();
   document.onkeypress = this.onKeyPress_.bind(this);
   window.onmousemove = this.showIcons_.bind(this);
-  // $(UI_CONSTANTS.muteAudioSvg).onclick = this.toggleAudioMute_.bind(this);
-  // $(UI_CONSTANTS.muteVideoSvg).onclick = this.toggleVideoMute_.bind(this);
-  // $(UI_CONSTANTS.fullscreenSvg).onclick = this.toggleFullScreen_.bind(this);
+  $(UI_CONSTANTS.muteAudioSvg).onclick = this.toggleAudioMute_.bind(this);
+  $(UI_CONSTANTS.muteVideoSvg).onclick = this.toggleVideoMute_.bind(this);
+  $(UI_CONSTANTS.fullscreenSvg).onclick = this.toggleFullScreen_.bind(this);
   $(UI_CONSTANTS.hangupSvg).onclick = this.hangup_.bind(this);
   setUpFullScreen();
 };
@@ -3662,9 +3661,6 @@ AppController.prototype.hangup_ = function() {
   this.call_.hangup(true);
   document.onkeypress = null;
   window.onmousemove = null;
-  //console.log('wwwwwwwwwwhhhhhhhhhhhhh');
-  //sendAsyncUrlRequest("POST", '/leave', JSON.stringify({clientId:'1',roomId:'2'}));
-
 };
 AppController.prototype.onRemoteHangup_ = function() {
   this.displayStatus_("The remote side hung up.");
@@ -3922,10 +3918,7 @@ AppController.IconSet_.prototype.toggle = function() {
   }
 };
 var Call = function(params) {
-
   this.params_ = params;
-  console.log("caaaaaaaallllllllllllll");
-  console.log(this.params_);
   this.roomServer_ = params.roomServer || "";
   this.channel_ = new SignalingChannel(params.wssUrl, params.wssPostUrl);
   this.channel_.onmessage = this.onRecvSignalingChannelMessage_.bind(this);
@@ -3973,7 +3966,6 @@ Call.prototype.restart = function() {
   this.start(this.params_.previousRoomId);
 };
 Call.prototype.hangup = function(async) {
-  console.log('hhhhhhhhhhhhhhhang');
   this.startTime = null;
   if (isChromeApp()) {
     this.clearCleanupQueue_();
@@ -3998,8 +3990,7 @@ Call.prototype.hangup = function(async) {
   var steps = [];
   steps.push({step:function() {
     var path = this.getLeaveUrl_();
-    console.log("get leave url" + JSON.stringify({roomId:this.params_.roomId ,clientId:this.params_.clientId}));
-    return sendUrlRequest("POST", path,async,{});
+    return sendUrlRequest("POST", path, async);
   }.bind(this), errorString:"Error sending /leave:"});
   steps.push({step:function() {
     this.channel_.send(JSON.stringify({type:"bye"}));
@@ -4040,11 +4031,8 @@ Call.prototype.hangup = function(async) {
   return Promise.resolve();
 };
 Call.prototype.getLeaveUrl_ = function() {
-  return this.roomServer_ + "/leave/" + this.params_.roomId + "/"+this.params_.clientId ; /// + this.params_.clientId;
+  return this.roomServer_ + "/leave/" + this.params_.roomId + "/" + this.params_.clientId;
 };
-// Call.prototype.getLeaveUrl_ = function() {
-//   return this.roomServer_ + "/leave";
-// };
 Call.prototype.onRemoteHangup = function() {
   this.startTime = null;
   this.params_.isInitiator = true;
@@ -4121,7 +4109,6 @@ Call.prototype.connectToRoom_ = function(roomId) {
   }.bind(this));
 };
 Call.prototype.maybeGetMedia_ = function() {
-
   var needStream = this.params_.mediaConstraints.audio !== false || this.params_.mediaConstraints.video !== false;
   var mediaPromise = null;
   if (needStream) {
@@ -4138,18 +4125,13 @@ Call.prototype.maybeGetMedia_ = function() {
           return device.kind === "audioinput";
         });
         var constraints = {video:cam && mediaConstraints.video, audio:mic && mediaConstraints.audio};
-        console.log("constraints ---- : " + constraints);
         return navigator.mediaDevices.getUserMedia(constraints);
       });
     }).then(function(stream) {
-        console.log("Got access to local media with mediaConstraints:\n" + "  '" + JSON.stringify(mediaConstraints) + "'");
-      
       trace("Got access to local media with mediaConstraints:\n" + "  '" + JSON.stringify(mediaConstraints) + "'");
       this.onUserMediaSuccess_(stream);
-  console.log(stream);
     }.bind(this)).catch(function(error) {
       this.onError_("Error getting user media: " + error.message);
-
       this.onUserMediaError_(error);
     }.bind(this));
   } else {
