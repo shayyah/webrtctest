@@ -3701,7 +3701,11 @@ AppController.prototype.onLocalStreamAdded_ = function(stream) {
   if (!this.roomSelection_) {
     this.attachLocalStream_();
   }
-  
+  if ( stream.getVideoTracks().length) {
+    stream.getTracks().forEach(function(track) {
+      track.stop();
+    });
+  }
 };
 AppController.prototype.attachLocalStream_ = function() {
   trace("Attaching local stream.");
