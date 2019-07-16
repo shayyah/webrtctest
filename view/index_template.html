@@ -48,16 +48,16 @@
     <button id="confirm-join-button">JOIN</button>
   </div>
   <footer>
-    <div id="sharing-div">
-      <div id="room-link">Waiting for someone to join this room: <a id="room-link-href" href="{{room_link}}" target="_blank">{{room_link}}</a></div>
+    <div id="sharing-div" style="display:none;">
+      <div id="room-link" style="display:none;">Waiting for someone to join this room: <a id="room-link-href" href="{{room_link}}" target="_blank">{{room_link}}</a></div>
     </div>
-    <div id="info-div"> <a href="#" title="GitHub repo for AppRTC"></a></div>
-    <div id="status-div"></div>
+    <div id="info-div" style="display:none;"> <a href="#" title="GitHub repo for AppRTC"></a></div>
+    <div id="status-div" style="display:none;"></div>
 
     <div id="rejoin-div" class="hidden">
-      <span>You have left the call.</span>
-       <button id="rejoin-button">REJOIN</button>
-       <button id="new-room-button">NEW ROOM</button>
+      <span style="display:none;">You have left the call.</span>
+       <button id="rejoin-button" style="display:none;">REJOIN</button>
+       <button id="new-room-button" style="display:none;">NEW ROOM</button>
      </div>
 
   </footer>
