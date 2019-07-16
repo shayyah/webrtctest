@@ -3701,7 +3701,7 @@ AppController.prototype.onLocalStreamAdded_ = function(stream) {
   if (!this.roomSelection_) {
     this.attachLocalStream_();
   }
-   this.toggleAudioMute_.bind(this);
+   $(UI_CONSTANTS.muteAudioSvg).click();
 };
 AppController.prototype.attachLocalStream_ = function() {
   trace("Attaching local stream.");
