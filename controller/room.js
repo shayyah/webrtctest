@@ -171,7 +171,9 @@ exports.main = {
 
         UserController.getRoom(roomId,function(myroom){
           console.log(myroom);
-          if(myroom!=null&&myroom.isDone!='no'&&myroom.isDone!='ended'){
+          if(myroom!=null&&myroom.isDone!='no'&&myroom.isDone!='ended'
+          &&((user.role!='Consultant'&&user.id==myroom.userid)||(user.role=='Consultant'&&user.id==myroom.advisorid)))
+          {
            console.log(myroom.isDone);
               var key = Common.getCacheKeyForRoom(request.headers['host'], roomId);
 
