@@ -197,6 +197,7 @@ exports.main = {
               console.log(request.params.video);
                 var params = Common.getRoomParameters(request, roomId, clientId, null);
                 console.log(params);
+                console.log(user.id+'  '+user.role);
                 if(user.role!='Consultant')
                   UserController.onUserOpenRoomUrl(myroom);
                 reply.view('index_template', params);
