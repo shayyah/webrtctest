@@ -187,12 +187,13 @@ exports.onUserOpenRoomUrl=function(room){
                     else {
                         room.isDone='no';
                     }
+                    res({message:'done'});
                     room.save(function(err){
                       if(err){
-                        res({message:'error'});
+                          console.log('done');
                       }
                       else{
-                        res({message:'done'});
+
                       }
                     });
                   }
