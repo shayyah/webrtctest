@@ -3661,6 +3661,7 @@ AppController.prototype.hangup_ = function() {
   this.call_.hangup(true);
   document.onkeypress = null;
   window.onmousemove = null;
+    window.close();
 };
 AppController.prototype.onRemoteHangup_ = function() {
   this.displayStatus_("The remote side hung up.");
