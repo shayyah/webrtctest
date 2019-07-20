@@ -3662,7 +3662,8 @@ AppController.prototype.hangup_ = function() {
   document.onkeypress = null;
   window.onmousemove = null;
   console.log("------------------------------2222----");
-window.close();
+  var customWindow = window.open('', '_blank', '');
+      customWindow.close();
 };
 AppController.prototype.onRemoteHangup_ = function() {
   this.displayStatus_("The remote side hung up.");
