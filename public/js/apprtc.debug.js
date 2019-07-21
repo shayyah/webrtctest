@@ -4834,7 +4834,7 @@ PeerConnectionClient.prototype.onIceConnectionStateChanged_ = function() {
   if (this.oniceconnectionstatechange) {
     this.oniceconnectionstatechange();
   }
-    if(this.pc_.iceConnectionState == 'disconnected') {
+    if(this.pc_.iceConnectionState == 'closed') {
       window.open(window.location.pathname, '_self', '');
       window.close();
     }
