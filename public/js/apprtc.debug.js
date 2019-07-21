@@ -4834,8 +4834,11 @@ PeerConnectionClient.prototype.onIceConnectionStateChanged_ = function() {
   if (this.oniceconnectionstatechange) {
     this.oniceconnectionstatechange();
   }
-  window.open(window.location.pathname, '_self', '');
-  window.close();
+    if(this.pc_.iceConnectionState == 'disconnected') {
+      window.open(window.location.pathname, '_self', '');
+      window.close();
+    }
+
 };
 PeerConnectionClient.prototype.filterIceCandidate_ = function(candidateObj) {
   var candidateStr = candidateObj.candidate;
