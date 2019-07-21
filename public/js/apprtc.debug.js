@@ -5462,9 +5462,7 @@ SignalingChannel.prototype.open = function() {
         trace("Channel closed with code:" + event.code + " reason:" + event.reason);
         this.websocket_ = null;
         this.registered_ = false;
-        var win = window.open("","_self"); /* url = "" or "about:blank"; target="_self" */
-
-        win.close();
+        
 
       };
       if (this.clientId_ && this.roomId_) {
