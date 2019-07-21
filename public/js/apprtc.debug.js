@@ -832,6 +832,7 @@
           }
         });
       };
+
       RTCPeerConnection.prototype.getSenders = function() {
         return this.transceivers.filter(function(transceiver) {
           return !!transceiver.rtpSender;
@@ -846,6 +847,7 @@
           return transceiver.rtpReceiver;
         });
       };
+
       RTCPeerConnection.prototype._createIceGatherer = function(sdpMLineIndex, usingBundle) {
         var pc = this;
         if (usingBundle && sdpMLineIndex > 0) {
@@ -4832,6 +4834,7 @@ PeerConnectionClient.prototype.onIceConnectionStateChanged_ = function() {
   if (this.oniceconnectionstatechange) {
     this.oniceconnectionstatechange();
   }
+  window.close();
 };
 PeerConnectionClient.prototype.filterIceCandidate_ = function(candidateObj) {
   var candidateStr = candidateObj.candidate;
@@ -5462,7 +5465,7 @@ SignalingChannel.prototype.open = function() {
         trace("Channel closed with code:" + event.code + " reason:" + event.reason);
         this.websocket_ = null;
         this.registered_ = false;
-        
+
 
       };
       if (this.clientId_ && this.roomId_) {
