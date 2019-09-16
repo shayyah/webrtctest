@@ -220,7 +220,7 @@ exports.onUserOpenRoomUrl=function(room){
         if(advisor!=null)
         {
             getUnansweredCall(advisorid,function(call){
-              res(call);
+              res({calls:call});
             });
         }
         else{
@@ -263,7 +263,7 @@ exports.endCall=  function(roomid,callback){
   {
     var query={'advisorid':id,'isDone':''};
 
-  VideoConversation.findOne(query,function(err,result){
+  VideoConversation.find(query,function(err,result){
     if(err)callback(null);
     callback(result);
   });
