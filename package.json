@@ -10,7 +10,7 @@
     "express": "^4.16.4",
     "firebase-admin": "^7.3.0",
     "gridfs-stream": "^1.1.1",
-    "handlebars": "^4.0.5",
+    "handlebars": "^4.3.0",
     "hapi": "^12.1.0",
     "hapi-bodyparser": "^2.0.2",
     "inert": "^3.2.0",
