@@ -8,7 +8,7 @@
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "express": "^4.16.4",
-    "firebase-admin": "^7.3.0",
+    "firebase-admin": "^11.4.1",
     "gridfs-stream": "^1.1.1",
     "handlebars": "^4.0.5",
     "hapi": "^12.1.0",
